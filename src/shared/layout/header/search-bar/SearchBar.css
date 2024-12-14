@@ -1,0 +1,4 @@
+.search-result-item{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:#212b36;gap:.5rem;padding:.5rem;border-radius:5px;cursor:pointer}
+.search-result-item:hover{background-color:#dfe3e8}
+.search-result-item span{font-size:18px;color:#212b36}
+.search-result-item div{gap:.5rem;display:flex;align-items:center}

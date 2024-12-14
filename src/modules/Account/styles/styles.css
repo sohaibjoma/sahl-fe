@@ -1,0 +1,5 @@
+.invisible-table{border-collapse:collapse;width:100%}
+.invisible-table td{padding:1rem;text-align:start}
+.invisible-table tr{border-bottom:1px solid #e2e2e2}
+.invisible-table tr:last-child,tr:first-child{border-bottom:none}
+.invisible-table th{text-align:start}
