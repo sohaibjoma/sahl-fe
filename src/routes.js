@@ -10,6 +10,7 @@ import ProductModule from '../src/modules/Product';
 import CartModule from '../src/modules/Cart';
 import AccountModule from '../src/modules/Account';
 import { authSelector } from './modules/Auth/state';
+import AllProducts from './modules/Product/views/OurProducts';
 
 export default function Router() {
   const { token } = useSelector(authSelector);
@@ -18,7 +19,7 @@ export default function Router() {
     token
       ? [
           {
-            path: '/',
+            path: '/*',
             element: <Outlet />,
             children: [
               {
@@ -30,7 +31,15 @@ export default function Router() {
                 ),
               },
               {
-                path: '/product/*',
+                path: 'allproducts',
+                element: (
+                  <Layout>
+                    <AllProducts />
+                  </Layout>
+                ),
+              },
+              {
+                path: 'product/*',
                 element: (
                   <Layout>
                     <ProductModule />
@@ -38,7 +47,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/cart/*',
+                path: 'cart/*',
                 element: (
                   <Layout>
                     <CartModule />
@@ -46,7 +55,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/account/*',
+                path: 'account/*',
                 element: (
                   <Layout>
                     <AccountModule />
@@ -60,17 +69,17 @@ export default function Router() {
             ],
           },
           {
-            path: '/auth/login',
+            path: 'auth/login',
             element: <Navigate to='/auth/login' replace />,
           },
           {
-            path: '/404',
+            path: '404',
             element: <Page404 />,
           },
         ]
       : [
           {
-            path: '/',
+            path: '/*',
             element: <Outlet />,
             children: [
               {
@@ -82,7 +91,15 @@ export default function Router() {
                 ),
               },
               {
-                path: '/product/*',
+                path: 'allproducts',
+                element: (
+                  <Layout>
+                    <AllProducts />
+                  </Layout>
+                ),
+              },
+              {
+                path: 'product/*',
                 element: (
                   <Layout>
                     <ProductModule />
@@ -90,7 +107,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/cart/*',
+                path: 'cart/*',
                 element: (
                   <Layout>
                     <CartModule />
@@ -98,7 +115,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/auth/*',
+                path: 'auth/*',
                 element: <AuthModule />,
               },
               {

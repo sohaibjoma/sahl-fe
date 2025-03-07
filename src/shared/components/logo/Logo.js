@@ -25,10 +25,10 @@ const Logo = forwardRef(({ sx, ...other }, ref) => {
         >
           <img
             loading='lazy'
-            src='/assets/logo/logo.svg'
+            src='/assets/logo/SahlLogo.png'
             alt='empty-cart'
-            width={80}
-            height={80}
+            width={200}
+            height={100}
             style={{
               margin: 'auto',
             }}

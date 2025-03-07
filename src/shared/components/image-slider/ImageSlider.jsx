@@ -51,6 +51,7 @@ export default function ImageSlider({ imgs, setCurrentImage }) {
           {imgs.map((item, index) => (
             <div key={index} className='card'>
               <img
+                loading='lazy'
                 src={API_URL + '/images/' + item.image_path}
                 alt='product'
                 onClick={() => setCurrentImage(index)}

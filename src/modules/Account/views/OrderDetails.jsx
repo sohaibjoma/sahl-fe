@@ -44,7 +44,7 @@ export default function OrderDetails() {
   return isFetching ? (
     <Loader />
   ) : (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' sx={{ mt: 5 }}>
       <Header
         gutterBottom
         refetch={refetch}

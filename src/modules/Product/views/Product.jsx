@@ -133,9 +133,9 @@ export default function Product() {
   return isFetching ? (
     <Loader />
   ) : (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' sx={{ mt: 4 }}>
       <Grid container sx={{ mb: 4, px: 2 }}>
-        <Grid item xs={12} sm={6} md={4} sx={{ mt: '4rem', p: 2 }}>
+        <Grid item xs={12} sm={6} md={4} sx={{ mt: 2, p: 2 }}>
           <ImageMagnifier
             alt={mainProduct?.name_en}
             imgUrl={`${API_URL}/images/${product?.images[currentImage]?.image_path}`}

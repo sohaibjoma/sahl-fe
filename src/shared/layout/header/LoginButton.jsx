@@ -16,7 +16,7 @@ export default function LoginButton({ t, isMobile, HEADER_DESKTOP }) {
           height={28}
           icon='material-symbols:login'
           sx={{
-            color: Colors.offWhite,
+            color: '#2F2019',
           }}
         />
       </IconButton>

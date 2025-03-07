@@ -4,8 +4,7 @@ import { useFetchProductsQuery } from '@/redux/apis/product';
 import Loader from '@/shared/components/loader/Loader';
 import ProductCard from '../../Home/components/ProductCard';
 import { useFetchCategoriesQuery } from '@/redux/apis/category';
-import { useEffect, useState } from 'react';
-import CategoryTree from '../components/CategoryTree';
+import { useState } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
 import { t } from 'i18next';
 
@@ -19,61 +18,37 @@ export default function CategoryProducts() {
     { id: 'per_page', value: pageSize },
     { id: 'category', value: slug },
   ]);
-  const dimentions = {
-    isMobile: useResponsive('down', 'md'),
-    isTablet: useResponsive('between', 'sm', 'md'),
-    isDesktop: useResponsive('between', 'md', 'lg'),
-    isLargeDesktop: useResponsive('up', 'lg'),
-  };
 
-  useEffect(() => {
-    setFiltersList((prevFiltersList) =>
-      prevFiltersList.map((filter) =>
-        filter.id === 'category' ? { ...filter, value: slug } : filter
-      )
-    );
-  }, [slug]);
-
-  const { data: categories } = useFetchCategoriesQuery();
-  //TODO: Convert to infinite scroll
-  const { data: products, isFetching } = useFetchProductsQuery({
-    filters: filtersList,
-  });
+  const { data: categories, isFetching } = useFetchCategoriesQuery();
+  const { data: products, isFetching: fetchingProducts } =
+    useFetchProductsQuery({
+      slug: slug,
+      page: filtersList.find((filter) => filter.id === 'page')?.value || 1,
+      per_page:
+        filtersList.find((filter) => filter.id === 'per_page')?.value || 4,
+    });
 
   const handleChangePage = (event, newPage) => {
-    const newFilters = [...filtersList];
-    const index = newFilters.findIndex((item) => item.id === 'page');
-
-    if (index > -1) {
-      newFilters.splice(index, 1);
-    }
-
-    newFilters.push({
-      id: 'page',
-      value: newPage,
-    });
-    setFiltersList(newFilters);
+    setFiltersList((prevFiltersList) =>
+      prevFiltersList.map((filter) =>
+        filter.id === 'page' ? { ...filter, value: newPage } : filter
+      )
+    );
   };
 
-  return isFetching ? (
-    <Loader />
-  ) : (
+  if (isFetching || fetchingProducts) {
+    return <Loader />;
+  }
+
+  return (
     <Container maxWidth='xl'>
       <Grid container spacing={2}>
-        {/* {dimentions.isMobile ? (
-          <></>
-        ) : (
-          <Grid item sm={3} md={2} lg={2}>
-            <CategoryTree slug={slug} data={categories} />
-          </Grid>
-        )} */}
-
         {products?.meta.total >= 1 ? (
           <>
-            <Grid item sm={9} md={10}>
+            <Grid item sm={9} md={10} className='mt-4 center m-auto'>
               <Grid container spacing={1}>
                 {products?.data.map((product, index) => (
-                  <Grid item key={index} xs={6} sm={4} md={3}>
+                  <Grid item key={index} xs={12} sm={6} md={6} lg={4}>
                     <ProductCard
                       key={`product-card-${index}`}
                       isRTL={isRTL}
@@ -95,8 +70,8 @@ export default function CategoryProducts() {
               }}
             >
               <Pagination
-                dir='ltr'
-                count={Math.ceil(products?.meta.total / pageSize)}
+                dir={isRTL ? 'rtl' : 'ltr'}
+                count={products?.meta.last_page}
                 page={products?.meta.current_page}
                 onChange={handleChangePage}
                 showFirstButton
@@ -105,7 +80,7 @@ export default function CategoryProducts() {
             </Grid>
           </>
         ) : (
-          <Grid item xs={8} sm={9} md={10} lg={10}>
+          <Grid item xs={12} sm={12} md={12} lg={12} sx={{ mt: 5 }}>
             <Typography variant='h4' align='center' gutterBottom>
               {t('noProductsFound')}
             </Typography>

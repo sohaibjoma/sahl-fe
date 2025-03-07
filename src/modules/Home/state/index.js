@@ -17,5 +17,4 @@ export const homeSlice = createSlice({
 });
 
 export const { setCategories, setProducts } = homeSlice.actions;
-
 export const homeSelector = (state) => state.home;

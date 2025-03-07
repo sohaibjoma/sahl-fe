@@ -45,7 +45,6 @@ export default function GeneralLayout({ children }) {
   return (
     <StyledRoot>
       <EmailVerificationAlert isEmailVerified={isEmailVerified} />
-
       <Header
         onOpenNav={() => setOpen(true)}
         isEmailVerified={isEmailVerified}

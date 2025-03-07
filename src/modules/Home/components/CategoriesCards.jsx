@@ -1,32 +1,15 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
-import Colors from '../../../theme/colors';
-import { useTranslation } from 'react-i18next';
 import { homeSelector } from '../state';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-// import { API_URL } from '@/redux/helpers/baseQuery';
+import { API_URL } from '@/redux/helpers/baseQuery';
 
 export default function CategoriesCards() {
-  const { t } = useTranslation();
   const { categories } = useSelector(homeSelector);
   const isRTL = localStorage.getItem('language') === 'ar';
 
   return (
-    <Grid container gap={3}>
-      <Grid item xs={12} md={12} lg={12}>
-        <Typography
-          variant='h4'
-          component='h4'
-          gutterBottom
-          color={Colors.brown}
-          sx={{
-            mt: 2,
-          }}
-        >
-          {t('shopByCategory')}
-        </Typography>
-      </Grid>
-
+    <Grid container gap={1}>
       <Grid
         item
         xs={12}
@@ -35,52 +18,63 @@ export default function CategoriesCards() {
         sx={{
           overflowX: 'auto',
           whiteSpace: 'nowrap',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         }}
       >
         <Stack
           gap={1}
-          direction={'row'}
+          direction='row'
           sx={{
+            alignItems: 'center',
             justifyContent: 'space-around',
           }}
         >
-          {categories.slice(0, 9).map((category) => (
+          {categories.slice(0, 5).map((category) => (
             <NavLink
               key={category.id}
               to={`/product/c/${category.slug}`}
-              style={{ textDecoration: 'none' }}
+              style={{
+                textDecoration: 'none',
+              }}
             >
               <Stack
+                direction='row'
+                alignItems='center'
+                gap={2}
                 sx={{
-                  minHeight: 200,
-                  display: 'flex',
                   cursor: 'pointer',
-                  alignItems: 'center',
+                  padding: '1rem',
                 }}
               >
                 <Box
                   sx={{
-                    width: 113,
-                    height: 136,
-                    marginBottom: 1,
-                    backgroundSize: 'cover',
-                    backgroundImage: `url('/assets/illustrations/categoryCardBG.svg')`,
+                    width: '75px',
+                    height: '75px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
                   }}
                 >
                   <img
                     loading='lazy'
-                    src={'/assets/images/home.webp'}
-                    // src={API_URL + '/images' + category.image.image_path}
+                    src={API_URL + '/images' + category.image.image_path}
                     alt={category.alt}
                     style={{
                       height: '100%',
-                      objectFit: 'contain',
                       width: '100%',
-                      mixBlendMode: 'darken',
+                      objectFit: 'cover',
                     }}
                   />
                 </Box>
-                <Typography sx={{ color: Colors.brown }}>
+                <Typography
+                  variant='h6'
+                  sx={{
+                    color: '#2F2019',
+                    fontWeight: 600,
+                    fontSize: '1.1rem',
+                  }}
+                >
                   {isRTL ? category.name_ar : category.name_en}
                 </Typography>
               </Stack>

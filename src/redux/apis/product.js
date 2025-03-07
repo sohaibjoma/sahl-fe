@@ -5,7 +5,6 @@ import {
 } from '../helpers/baseQuery';
 import { errorHandler } from '../helpers/errorHandler';
 import { setProducts } from '../../modules/Home/state';
-import { generateUrlParams } from '../../utils/paramsUtil';
 
 export const productAPI = createApi({
   reducerPath: 'productAPI',
@@ -30,11 +29,20 @@ export const productAPI = createApi({
       providesTags: ['product'],
     }),
     fetchProducts: build.query({
-      query: (params) => ({
-        url: `/products?${
-          params.filters ? generateUrlParams([...params.filters]) : ''
-        }`,
-      }),
+      query: (filter) => {
+        const params = new URLSearchParams({
+          category: filter.slug,
+          page: filter.page || 1,
+          per_page: filter.per_page || 4,
+        });
+
+        if (filter.min_price) params.append('min_price', filter.min_price);
+        if (filter.max_price) params.append('max_price', filter.max_price);
+
+        return {
+          url: `/products?${params.toString()}`,
+        };
+      },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled
           .then((result) => {

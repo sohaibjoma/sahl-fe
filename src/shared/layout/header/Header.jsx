@@ -14,14 +14,15 @@ import { authSelector } from '@/modules/Auth/state';
 import { useSelector } from 'react-redux';
 import AccountPopover from './AccountPopover';
 import CategoriesBar from './categories-bar/CategoriesBar';
+import HeaderTop from './HeaderTop';
 
 const HEADER_DESKTOP = 64;
 
 const StyledRoot = styled(AppBar)(({ theme }) => {
   return {
-    ...bgBlur({ color: Colors.backgroundColor }),
+    ...bgBlur({ color: Colors.black }),
     boxShadow: 'none',
-    backgroundColor: Colors.themeColor,
+    backgroundColor: '#F7F5EF',
     [theme.breakpoints.up('lg')]: {
       width: '100%',
     },
@@ -34,7 +35,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   minHeight: HEADER_DESKTOP,
   [theme.breakpoints.up('lg')]: {
     margin: 'auto',
-    maxWidth: 1288,
+    maxWidth: 1400,
     minHeight: HEADER_DESKTOP,
   },
 }));
@@ -47,6 +48,7 @@ export default function Header({ onOpenNav, isEmailVerified }) {
 
   return (
     <StyledRoot>
+      <HeaderTop />
       <StyledToolbar sx={{ paddingTop: isEmailVerified ? 0 : 10 }}>
         <Stack
           direction='row'
@@ -62,7 +64,7 @@ export default function Header({ onOpenNav, isEmailVerified }) {
               onClick={onOpenNav}
               sx={{
                 mr: 1,
-                color: Colors.white,
+                color: '#2F2019',
                 display: { lg: 'none' },
               }}
             >
@@ -78,10 +80,10 @@ export default function Header({ onOpenNav, isEmailVerified }) {
               <IconButton aria-label='home btn'>
                 <img
                   loading='lazy'
-                  src='/assets/logo/whiteLogoOnly.svg'
+                  src='/assets/logo/SahlLogo.png'
                   alt='empty-cart'
-                  width={'34'}
-                  height={'34'}
+                  width={'130'}
+                  height={'70'}
                   style={{
                     margin: 'auto',
                   }}
@@ -101,7 +103,7 @@ export default function Header({ onOpenNav, isEmailVerified }) {
 
         <Stack
           direction='row'
-          gap={2}
+          gap={3}
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -115,7 +117,7 @@ export default function Header({ onOpenNav, isEmailVerified }) {
             />
           )}
           {isDesktop && <LanguageSwitch HEADER_DESKTOP={HEADER_DESKTOP} />}
-          <CartButton />
+
           {token ? (
             <AccountPopover />
           ) : (
@@ -125,6 +127,8 @@ export default function Header({ onOpenNav, isEmailVerified }) {
               HEADER_DESKTOP={HEADER_DESKTOP}
             />
           )}
+
+          <CartButton t={t} />
         </Stack>
       </StyledToolbar>
 
