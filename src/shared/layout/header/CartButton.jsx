@@ -6,11 +6,13 @@ import { cartSelector } from '../../../modules/Cart/state';
 import { useSelector } from 'react-redux';
 import { useFetchOrdersQuery } from '@/redux/apis/apiHub';
 import { useTranslation } from 'react-i18next';
+import useResponsive from '@/hooks/useResponsive';
 
 export default function CartButton() {
   const { cartItems } = useSelector(cartSelector);
   const { data: orders } = useFetchOrdersQuery();
   const { t } = useTranslation();
+  const isDesktop = useResponsive('up', 'md');
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -26,9 +28,11 @@ export default function CartButton() {
         </IconButton>
       </Link>
       <Box sx={{ mx: 1 }}>
-        <Typography variant='h9' sx={{ color: '#A5A5A5' }}>
-          {t('myCart')}
-        </Typography>
+        {isDesktop && (
+          <Typography variant='h9' sx={{ color: '#A5A5A5' }}>
+            {t('myCart')}
+          </Typography>
+        )}
         <Typography variant='h6' color={Colors.grey[600]} sx={{ mt: 0.5 }}>
           {orders?.total}
         </Typography>

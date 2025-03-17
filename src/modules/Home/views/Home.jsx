@@ -31,10 +31,10 @@ export default function Home() {
   const navigate = useNavigate();
 
   const images = [
-    { url: '/assets/images/Hero-pic.webp', title: 'img1' },
-    { url: '/assets/images/img1.webp', title: 'img2' },
-    { url: '/assets/images/img2.webp', title: 'img3' },
-    { url: '/assets/images/img3.webp', title: 'img4' },
+    { url: '/assets/images/img1.webp', title: 'img1' },
+    { url: '/assets/images/img2.webp', title: 'img2' },
+    { url: '/assets/images/img3.webp', title: 'img3' },
+    { url: '/assets/images/Hero-pic.webp', title: 'img4' },
   ];
 
   return isLoading ? (

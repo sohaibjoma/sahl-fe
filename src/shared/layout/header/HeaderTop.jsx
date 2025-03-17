@@ -54,7 +54,7 @@ function HeaderTop() {
         >
           <IconButton color='inherit' href=''>
             <Contacts fontSize='small' />
-            <Typography variant='body2' sx={{ ml: 1 }}>
+            <Typography variant='body2' sx={{ m: 1 }}>
               {t('contactUs')}
             </Typography>
           </IconButton>
@@ -63,7 +63,7 @@ function HeaderTop() {
 
           <IconButton color='inherit' href=''>
             <Policy fontSize='small' />
-            <Typography variant='body2' sx={{ ml: 1 }}>
+            <Typography variant='body2' sx={{ m: 1 }}>
               {t('returnPolicy')}
             </Typography>
           </IconButton>
@@ -75,7 +75,7 @@ function HeaderTop() {
             onClick={() => navigate('/account/favorites')}
           >
             <Favorite fontSize='small' />
-            <Typography variant='body2' sx={{ ml: 1 }}>
+            <Typography variant='body2' sx={{ m: 1 }}>
               {t('myFavorites')}
             </Typography>
           </IconButton>
@@ -98,17 +98,17 @@ function HeaderTop() {
           >
             <IconButton color='inherit' href='mailto:info@sahlfurniture.com'>
               <Email fontSize='small' />
-              <Typography variant='body2' sx={{ ml: 1 }}>
+              <Typography variant='body2' sx={{ m: 1 }}>
                 info@sahlfurniture.com
               </Typography>
             </IconButton>
 
             <Typography variant='body2'>|</Typography>
 
-            <IconButton color='inherit' href='tel:+20123456789'>
+            <IconButton color='inherit' href='tel:+201019443462'>
               <Phone fontSize='small' />
-              <Typography variant='body2' sx={{ ml: 1 }}>
-                +20-123456789
+              <Typography variant='body2' sx={{ m: 1 }}>
+                {t('phone')}
               </Typography>
             </IconButton>
           </Box>

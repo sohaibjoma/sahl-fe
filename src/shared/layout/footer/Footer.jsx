@@ -19,7 +19,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-// import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { useSelector } from 'react-redux';
@@ -100,16 +99,16 @@ export default function Footer() {
   const { categories } = useSelector(homeSelector);
 
   const contactInfo = {
-    phone: '+20 1019 4434 62',
+    phone: t('phone'),
     email: 'info@sahlfurniture.com',
     address: 'طريق بوسعيد - بعد الدفاع المدني',
   };
 
   const services = [
-    'من نحن',
-    'سياسة الخصوصية',
-    'الشروط والأحكام',
-    'الدعم الفني',
+    t('weFooter'),
+    t('privacyPolicy'),
+    t('termsAndConditions'),
+    t('support'),
   ];
 
   const paymentIcons = [
@@ -225,19 +224,40 @@ export default function Footer() {
                 disableGutters
                 sx={{ textAlign: isRTL ? 'right' : 'left' }}
               >
-                <PhoneIcon sx={{ marginRight: 1 }} />
-                <ListItemText primary={contactInfo.phone} />
+                <IconButton
+                  color='inherit'
+                  href={`tel:${contactInfo.phone}`}
+                  sx={{ p: 0, m: 1 }}
+                >
+                  <PhoneIcon />
+                </IconButton>
+                <ListItemText
+                  primary={
+                    <Link
+                      href={`tel:${contactInfo.phone}`}
+                      style={{ color: '#F7F5EF', textDecoration: 'none' }}
+                    >
+                      {contactInfo.phone}
+                    </Link>
+                  }
+                />
               </StyledListItem>
               <StyledListItem
                 disableGutters
                 sx={{ textAlign: isRTL ? 'right' : 'left' }}
               >
-                <EmailIcon sx={{ marginRight: 1 }} />
+                <IconButton
+                  color='inherit'
+                  href={`mailto:${contactInfo.email}`}
+                  sx={{ p: 0, m: 1 }}
+                >
+                  <EmailIcon />
+                </IconButton>
                 <ListItemText
                   primary={
                     <Link
                       href={`mailto:${contactInfo.email}`}
-                      style={{ color: '#F7F5EF', textDecoration: 'underline' }}
+                      style={{ color: '#F7F5EF', textDecoration: 'none' }}
                     >
                       {contactInfo.email}
                     </Link>
@@ -248,7 +268,7 @@ export default function Footer() {
                 disableGutters
                 sx={{ textAlign: isRTL ? 'right' : 'left' }}
               >
-                <LocationOnIcon sx={{ marginRight: 1 }} />
+                <LocationOnIcon sx={{ m: 1 }} />
                 <ListItemText primary={contactInfo.address} />
               </StyledListItem>
             </List>
