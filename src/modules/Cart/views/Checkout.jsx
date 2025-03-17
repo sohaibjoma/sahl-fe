@@ -35,7 +35,7 @@ export default function CheckoutForm() {
   }, [cartItems, state]);
 
   const handleCheckout = () => {
-    checkout(checkoutData);
+    checkout();
   };
 
   const handleCheckoutWithCash = async () => {

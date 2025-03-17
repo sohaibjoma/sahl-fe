@@ -58,7 +58,7 @@ export default function CategoriesCards() {
                 >
                   <img
                     loading='lazy'
-                    src={API_URL + '/images' + category.image.image_path}
+                    src={API_URL + '/images' + category.image?.image_path}
                     alt={category.alt}
                     style={{
                       height: '100%',
