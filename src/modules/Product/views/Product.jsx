@@ -138,7 +138,7 @@ export default function Product() {
         <Grid item xs={12} sm={6} md={4} sx={{ mt: 2, p: 2 }}>
           <ImageMagnifier
             alt={mainProduct?.name_en}
-            imgUrl={`${API_URL}/images/${product?.images[currentImage]?.image_path}`}
+            src={`${product?.images[currentImage]?.image_path}`}
           />
           <br />
           <ImageSlider
