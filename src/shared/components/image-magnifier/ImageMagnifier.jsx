@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { API_URL } from '@/redux/helpers/baseQuery';
+import { useMemo, useState } from 'react';
 import Zoom from 'react-medium-image-zoom';
 import './styles.css';
 
-function ImageMagnifier({ imgUrl, alt }) {
+function ImageMagnifier({ src, alt }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const handleImageLoad = () => {
-    setIsLoaded(true);
-  };
-
+  const handleImageLoad = () => setIsLoaded(true);
   const handleMouseHover = (e) => {
+    if (!isLoaded) return;
+
     const { left, top, width, height } =
       e.currentTarget.getBoundingClientRect();
     const x = ((e.pageX - left) / width) * 100;
@@ -22,31 +22,40 @@ function ImageMagnifier({ imgUrl, alt }) {
     setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
   };
 
+  const imageUrl = useMemo(() => `${API_URL}/images${src}`, [src]);
+
   return (
     <div
       className='img-magnifier-container'
-      onMouseEnter={() => setShowMagnifier(true)}
+      onMouseEnter={() => isLoaded && setShowMagnifier(true)}
       onMouseLeave={() => setShowMagnifier(false)}
       onMouseMove={handleMouseHover}
-      style={{
-        borderRadius: '8px',
-        boxShadow: '0 0 8px 0 rgba(0,0,0,0.1)',
-      }}
     >
       <Zoom>
         <img
-          loading='lazy'
           className='magnifier-img'
-          src={imgUrl}
+          src={imageUrl}
           alt={alt}
           onLoad={handleImageLoad}
-          style={{
-            display: isLoaded ? 'block' : 'none',
-          }}
+          style={{ opacity: isLoaded ? 1 : 0 }}
         />
       </Zoom>
 
-      {showMagnifier && (
+      {!isLoaded && (
+        <div
+          className='skeleton-loading'
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+          }}
+        />
+      )}
+
+      {showMagnifier && isLoaded && (
         <div
           style={{
             position: 'absolute',
@@ -57,9 +66,9 @@ function ImageMagnifier({ imgUrl, alt }) {
           }}
         >
           <div
-            className='magnifier-image'
+            className='magnified-image'
             style={{
-              backgroundImage: `url(${imgUrl})`,
+              backgroundImage: `url(${imageUrl})`,
               backgroundPosition: `${position.x}% ${position.y}%`,
             }}
           />
