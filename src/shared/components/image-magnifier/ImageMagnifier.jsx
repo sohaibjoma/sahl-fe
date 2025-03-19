@@ -45,17 +45,6 @@ function ImageMagnifier({ imgUrl, alt }) {
           }}
         />
       </Zoom>
-      <img
-        loading='eager'
-        className='magnifier-img'
-        src={'/assets/images/placeholder.png'}
-        alt={'placeholder'}
-        style={{
-          width: '100%',
-          height: '100%',
-          display: isLoaded ? 'none' : 'block',
-        }}
-      />
 
       {showMagnifier && (
         <div
