@@ -1,102 +1,200 @@
-import { Container, Grid, Pagination, Typography } from '@mui/material';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetchProductsQuery } from '@/redux/apis/product';
-import Loader from '@/shared/components/loader/Loader';
-import ProductCard from '../../Home/components/ProductCard';
 import { useFetchCategoriesQuery } from '@/redux/apis/category';
-import { useState } from 'react';
-import useResponsive from '../../../hooks/useResponsive';
+import ProductsFilter from '../components/ProductsFilter';
+import ProductCard from '../../Home/components/ProductCard';
+import Loader from '@/shared/components/loader/Loader';
+import {
+  Typography,
+  Grid,
+  Box,
+  useMediaQuery,
+  useTheme,
+  Pagination,
+  IconButton,
+  Drawer,
+  Container,
+} from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { t } from 'i18next';
 
 const pageSize = 4;
 
 export default function CategoryProducts() {
   const { slug } = useParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isRTL = localStorage.getItem('language') === 'ar';
-  const [filtersList, setFiltersList] = useState([
-    { id: 'page', value: 1 },
-    { id: 'per_page', value: pageSize },
-    { id: 'category', value: slug },
-  ]);
 
-  const { data: categories, isFetching } = useFetchCategoriesQuery();
-  const { data: products, isFetching: fetchingProducts } =
-    useFetchProductsQuery({
-      slug: slug,
-      page: filtersList.find((filter) => filter.id === 'page')?.value || 1,
-      per_page:
-        filtersList.find((filter) => filter.id === 'per_page')?.value || 4,
-    });
+  const [filtersList, setFiltersList] = useState({
+    page: 1,
+    per_page: pageSize,
+    slug: slug || '',
+    subcategory: '',
+    min_price: '',
+    max_price: '',
+  });
+  const [selectedCategories, setSelectedCategories] = useState([slug || '']);
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const handleChangePage = (event, newPage) => {
-    setFiltersList((prevFiltersList) =>
-      prevFiltersList.map((filter) =>
-        filter.id === 'page' ? { ...filter, value: newPage } : filter
-      )
-    );
+  const {
+    data: categories,
+    isFetching: fetchingCategories,
+    error: categoriesError,
+  } = useFetchCategoriesQuery();
+  const {
+    data: products,
+    isFetching: fetchingProducts,
+    error: productsError,
+  } = useFetchProductsQuery(filtersList);
+
+  useEffect(() => {
+    const newSlug = slug || '';
+    setFiltersList((prev) => ({ ...prev, slug: newSlug }));
+    setSelectedCategories([newSlug]);
+  }, [slug]);
+
+  const handleFilterChange = (category, subcategory, priceRange) => {
+    setSelectedCategories([category]);
+    setSelectedSubcategories(subcategory ? [subcategory] : []);
+    setFiltersList((prevFilters) => ({
+      ...prevFilters,
+      slug: category,
+      subcategory: subcategory || '',
+      min_price: priceRange[0],
+      max_price: priceRange[1],
+    }));
   };
 
-  if (isFetching || fetchingProducts) {
+  const handleChangePage = (event, newPage) => {
+    setFiltersList((prevFilters) => ({ ...prevFilters, page: newPage }));
+  };
+
+  if (fetchingCategories || fetchingProducts) {
     return <Loader />;
   }
 
+  if (categoriesError) {
+    return (
+      <Typography color='error'>
+        {t('errorLoadingCategories')}: {categoriesError.message}
+      </Typography>
+    );
+  }
+
+  const category = Array.isArray(categories)
+    ? categories.find((cat) => cat.slug === slug)
+    : null;
+
+  const categoryTitle = category
+    ? isRTL
+      ? category.name_ar || 'غير متوفر'
+      : category.name_en || 'Not Available'
+    : t('products');
+
   return (
-    <Container maxWidth='xl'>
-      <Grid container spacing={2}>
-        {products?.meta.total >= 1 ? (
-          <>
-            <Grid item sm={9} md={10} className='mt-4 center m-auto'>
-              <Grid container spacing={1}>
-                {products?.data.map((product, index) => (
-                  <Grid item key={index} xs={12} sm={6} md={6} lg={4}>
-                    <ProductCard
-                      key={`product-card-${index}`}
-                      isRTL={isRTL}
-                      product={product}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-            <br />
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                mt: 2,
-              }}
+    <Container maxWidth='lg' dir={isRTL ? 'rtl' : 'ltr'}>
+      <Box sx={{ mt: 8, mb: 5 }}>
+        <Typography variant='h5' gutterBottom sx={{ mb: 6, color: '#2F2019' }}>
+          {categoryTitle}
+        </Typography>
+
+        {isMobile && (
+          <IconButton onClick={() => setIsFilterOpen(true)} sx={{ mb: 2 }}>
+            <FilterListIcon />
+            <Typography variant='body1' sx={{ m: 1 }}>
+              {t('filter')}
+            </Typography>
+          </IconButton>
+        )}
+
+        <Grid container spacing={3}>
+          {isMobile ? (
+            <Drawer
+              anchor={isRTL ? 'right' : 'left'}
+              open={isFilterOpen}
+              onClose={() => setIsFilterOpen(false)}
             >
-              <Pagination
-                dir={isRTL ? 'rtl' : 'ltr'}
-                count={products?.meta.last_page}
-                page={products?.meta.current_page}
-                onChange={handleChangePage}
-                showFirstButton
-                showLastButton
+              <ProductsFilter
+                onFilterChange={handleFilterChange}
+                minPrice={filtersList.min_price}
+                maxPrice={filtersList.max_price}
+                selectedCategory={selectedCategories[0]}
+                selectedSubcategory={selectedSubcategories[0]}
+              />
+            </Drawer>
+          ) : (
+            <Grid key='filter' item xs={12} md={3} lg={3}>
+              <ProductsFilter
+                onFilterChange={handleFilterChange}
+                minPrice={filtersList.min_price}
+                maxPrice={filtersList.max_price}
+                selectedCategory={selectedCategories[0]}
+                selectedSubcategory={selectedSubcategories[0]}
               />
             </Grid>
-          </>
-        ) : (
-          <Grid item xs={12} sm={12} md={12} lg={12} sx={{ mt: 5 }}>
-            <Typography variant='h4' align='center' gutterBottom>
-              {t('noProductsFound')}
-            </Typography>
-            <img
-              loading='lazy'
-              src='/assets/illustrations/notFound.webp'
-              alt='not-found'
-              width={'550'}
-              height={'550'}
-              style={{
-                margin: 'auto',
-              }}
-            />
+          )}
+
+          <Grid item xs={12} md={9} lg={9}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ justifyContent: 'flex-start' }} // Align items to start
+            >
+              {productsError ? (
+                <Typography color='error'>
+                  {t('errorLoadingProducts')}: {productsError.message}
+                </Typography>
+              ) : products?.data?.length > 0 ? (
+                products.data.map((product, index) => (
+                  <Grid item key={product.id} xs={12} sm={6} md={6} lg={4}>
+                    <ProductCard
+                      product={product}
+                      isRTL={isRTL}
+                      key={`product-card-${index}`}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12} sx={{ mt: 5 }}>
+                  <Typography
+                    variant='body1'
+                    sx={{ color: '#555', textAlign: 'center' }}
+                  >
+                    {t('noProductsFound')}
+                  </Typography>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}
+                  >
+                    <img
+                      loading='lazy'
+                      src='/assets/illustrations/notFound.webp'
+                      alt='not-found'
+                      width={'550'}
+                      height={'550'}
+                      style={{ margin: 'auto' }}
+                    />
+                  </Box>
+                </Grid>
+              )}
+            </Grid>
+
+            {products?.meta?.total > pageSize && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <Pagination
+                  count={Math.ceil(products.meta.total / pageSize)}
+                  page={filtersList.page}
+                  onChange={handleChangePage}
+                  showFirstButton
+                  showLastButton
+                />
+              </Box>
+            )}
           </Grid>
-        )}
-      </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 }

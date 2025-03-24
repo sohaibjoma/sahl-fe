@@ -202,7 +202,7 @@ const en = {
   followTheLatestInteriorDesigns:
     'Follow the Latest Global Interior Designs of 2025',
   downloadNow: 'Download it now!',
-  phone: '+20 1019 4434 62',
+  phone: '+20 15 0008 7700',
   weFooter: 'Who We Are',
   termsAndConditions: 'Terms And Conditions',
   support: 'Support',

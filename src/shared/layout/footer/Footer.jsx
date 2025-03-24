@@ -25,7 +25,6 @@ import { useSelector } from 'react-redux';
 import { homeSelector } from '../../../modules/Home/state';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
-// Custom TikTok Icon Component
 const TikTokIcon = ({ color = '#000000' }) => {
   return (
     <svg

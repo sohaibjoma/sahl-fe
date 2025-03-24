@@ -27,7 +27,7 @@ const ProductsFilter = ({
 }) => {
   const { categories } = useSelector(homeSelector);
   const [selectedCategory, setSelectedCategory] = useState(
-    propSelectedCategory || null
+    propSelectedCategory || ''
   );
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     propSelectedSubcategory || null
@@ -37,11 +37,8 @@ const ProductsFilter = ({
   const [expandedCategories, setExpandedCategories] = useState(false);
   const [expandedSubcategories, setExpandedSubcategories] = useState(false);
 
-  const reversedCategories = [...categories].reverse();
-
-  // Sync local state with props
   useEffect(() => {
-    setSelectedCategory(propSelectedCategory || null);
+    setSelectedCategory(propSelectedCategory || '');
   }, [propSelectedCategory]);
 
   useEffect(() => {
@@ -50,7 +47,7 @@ const ProductsFilter = ({
 
   const handleCategoryChange = (categorySlug) => {
     setSelectedCategory(categorySlug);
-    setSelectedSubcategory(null); // Reset subcategory when category changes
+    setSelectedSubcategory(null);
     setFromPrice('');
     setToPrice('');
     onFilterChange(categorySlug, null, ['', '']);
@@ -115,7 +112,9 @@ const ProductsFilter = ({
             {expandedCategories ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         </Box>
-        {reversedCategories
+
+        {/* Regular categories */}
+        {categories
           .slice(0, expandedCategories ? undefined : 5)
           .map((category) => (
             <FormControlLabel
@@ -156,7 +155,7 @@ const ProductsFilter = ({
             {expandedSubcategories ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         </Box>
-        {reversedCategories
+        {categories
           .flatMap((category) => category.children || [])
           .slice(0, expandedSubcategories ? undefined : 5)
           .map((subcategory) => (

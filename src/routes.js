@@ -10,7 +10,6 @@ import ProductModule from '../src/modules/Product';
 import CartModule from '../src/modules/Cart';
 import AccountModule from '../src/modules/Account';
 import { authSelector } from './modules/Auth/state';
-import AllProducts from './modules/Product/views/OurProducts';
 
 export default function Router() {
   const { token } = useSelector(authSelector);
@@ -27,14 +26,6 @@ export default function Router() {
                 element: (
                   <Layout>
                     <HomeModule />
-                  </Layout>
-                ),
-              },
-              {
-                path: 'allproducts',
-                element: (
-                  <Layout>
-                    <AllProducts />
                   </Layout>
                 ),
               },
@@ -87,14 +78,6 @@ export default function Router() {
                 element: (
                   <Layout>
                     <HomeModule />
-                  </Layout>
-                ),
-              },
-              {
-                path: 'allproducts',
-                element: (
-                  <Layout>
-                    <AllProducts />
                   </Layout>
                 ),
               },

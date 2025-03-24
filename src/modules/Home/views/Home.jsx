@@ -49,7 +49,7 @@ export default function Home() {
             md={12}
             lg={12}
             sx={{
-              height: '560px',
+              height: '570px',
               mt: '27px',
               position: 'relative',
               overflow: 'hidden',
@@ -123,7 +123,7 @@ export default function Home() {
                     color: '#F7F5EF',
                     '&:hover': { backgroundColor: '#6B4F32' },
                   }}
-                  onClick={() => navigate('/allproducts')}
+                  onClick={() => navigate('/product/c/gmyaa-almntgat')}
                 >
                   <ArrowBackOutlinedIcon
                     sx={{
@@ -147,7 +147,7 @@ export default function Home() {
                     backgroundColor: 'transparent',
                     '&:hover': { borderColor: '#6B4F32' },
                   }}
-                  onClick={() => navigate('/allproducts')}
+                  onClick={() => navigate('/product/c/gmyaa-almntgat')}
                 >
                   {t('discover')}
                 </Button>

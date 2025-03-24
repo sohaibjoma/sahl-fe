@@ -200,7 +200,7 @@ const ar = {
   followTheLatestInteriorDesigns:
     'تابع أحدث التصاميم الداخلية العالمية لــعام 2025',
   downloadNow: 'حمله الآن',
-  phone: '62 4434 1019- 20+',
+  phone: '00 0877 1500- 20+',
   weFooter: 'من نحن',
   termsAndConditions: 'الشروط والأحكام',
   support: 'الدعم الفني',
