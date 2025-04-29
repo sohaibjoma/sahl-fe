@@ -29,6 +29,13 @@ export default function Carousel({ images, isAuto = false }) {
     color: Colors.white,
     zIndex: '1',
     cursor: 'pointer',
+    width: '50px',
+    height: '50px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2F2019',
+    borderRadius: '50%',
   };
 
   const rightArrowStyles = {
@@ -40,6 +47,13 @@ export default function Carousel({ images, isAuto = false }) {
     color: Colors.white,
     zIndex: '1',
     cursor: 'pointer',
+    width: '50px',
+    height: '50px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2F2019',
+    borderRadius: '50%',
   };
 
   const goToSlide = (index) => {

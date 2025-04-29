@@ -25,7 +25,7 @@ export default function MyAddresses() {
   return isFetching ? (
     <Loader />
   ) : (
-    <Container maxWidth='lg'>
+    <Container maxWidth='lg' sx={{ mt: 5 }}>
       <Header divider header={'myAddresses'} refetch={refetch}>
         <Button
           variant='contained'

@@ -6,7 +6,7 @@ export default function HomeRoot() {
   return (
     <>
       <Helmet>
-        <title>The Furn Hub</title>
+        <title>Sahl Furniture</title>
       </Helmet>
 
       <Routes>

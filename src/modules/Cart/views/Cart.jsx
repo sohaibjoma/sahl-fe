@@ -30,7 +30,7 @@ export default function Cart() {
   }, [token]);
 
   return (
-    <Container maxWidth='lg'>
+    <Container maxWidth='lg' sx={{ mt: 5 }}>
       {cartItems?.items?.length > 0 && (
         <Header refetch={fetchCartItems} divider={false} sx={{ mb: 2 }}>
           <Typography variant='h4'>{t('myCart')}</Typography>
@@ -38,7 +38,8 @@ export default function Cart() {
             variant='subtitle1'
             color={Colors.grey[600]}
             sx={{
-              mx: 1,
+              // alignItems: 'start',
+              display: 'flex',
             }}
           >
             {t('myCartItems').replace('{0}', cartItems.items.length)}

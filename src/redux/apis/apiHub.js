@@ -64,15 +64,17 @@ export const apiHub = createApi({
       transformResponse: (result) => result.data,
       providesTags: ['order'],
     }),
+
     fetchOrders: build.query({
-      query: (params) => ({
+      query: (params = {}) => ({
         url: `/orders?${
-          params.filters ? generateUrlParams([...params.filters]) : ''
+          params?.filters ? generateUrlParams([...params.filters]) : ''
         }`,
         method: 'GET',
       }),
       providesTags: ['order'],
     }),
+
     checkOrderStatus: build.query({
       query: (id) => ({
         url: `/orders/validate/${id}`,

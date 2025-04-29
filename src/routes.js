@@ -18,7 +18,7 @@ export default function Router() {
     token
       ? [
           {
-            path: '/',
+            path: '/*',
             element: <Outlet />,
             children: [
               {
@@ -30,7 +30,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/product/*',
+                path: 'product/*',
                 element: (
                   <Layout>
                     <ProductModule />
@@ -38,7 +38,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/cart/*',
+                path: 'cart/*',
                 element: (
                   <Layout>
                     <CartModule />
@@ -46,7 +46,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/account/*',
+                path: 'account/*',
                 element: (
                   <Layout>
                     <AccountModule />
@@ -60,17 +60,17 @@ export default function Router() {
             ],
           },
           {
-            path: '/auth/login',
+            path: 'auth/login',
             element: <Navigate to='/auth/login' replace />,
           },
           {
-            path: '/404',
+            path: '404',
             element: <Page404 />,
           },
         ]
       : [
           {
-            path: '/',
+            path: '/*',
             element: <Outlet />,
             children: [
               {
@@ -82,7 +82,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/product/*',
+                path: 'product/*',
                 element: (
                   <Layout>
                     <ProductModule />
@@ -90,7 +90,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/cart/*',
+                path: 'cart/*',
                 element: (
                   <Layout>
                     <CartModule />
@@ -98,7 +98,7 @@ export default function Router() {
                 ),
               },
               {
-                path: '/auth/*',
+                path: 'auth/*',
                 element: <AuthModule />,
               },
               {

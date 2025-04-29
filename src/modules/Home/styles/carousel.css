@@ -1,1 +1,16 @@
-.gd-carousel{left:calc(0%)}.rtl.react-multiple-carousel__arrow--left{left:auto;right:calc(0%)}
+.gd-carousel {
+  left: calc(0%);
+}
+.rtl.react-multiple-carousel__arrow--left {
+  left: auto;
+  right: calc(0%);
+}
+
+  .react-multiple-carousel__arrow {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  
+  .react-multiple-carousel__arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }

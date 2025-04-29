@@ -1,4 +1,4 @@
-<h1 align="center">The Furn Hub</h1>
+<h1 align="center">Sahl Furniture</h1>
 
 ## File Structure
 

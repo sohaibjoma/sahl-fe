@@ -16,17 +16,18 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => {
   const isRTL = localStorage.getItem('language') === 'ar';
 
   return {
-    height: 30,
-    width: 500,
-    backgroundColor: theme.palette.grey[200],
-    ...(isRTL && { paddingRight: 0 }),
+    height: 50,
+    width: 700,
+    border: '1px solid #EEE',
+    backgroundColor: '#FFFFFF',
+    ...(isRTL && { paddingRight: 5 }),
     transition: theme.transitions.create(['box-shadow', 'width'], {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.shorter,
     }),
     '& fieldset': {
       borderWidth: `1px !important`,
-      borderColor: `${alpha(theme.palette.grey[500], 0.32)} !important`,
+      borderColor: `${alpha(theme.palette.grey[100], 0.32)} !important`,
     },
     input: {
       padding: '5px',
@@ -113,7 +114,7 @@ const SearchBar = ({ t, isMobile, HEADER_DESKTOP }) => {
   const searchingPopup = (
     <div
       style={{
-        width: 500,
+        width: 700,
         position: 'absolute',
         backgroundColor: Colors.offWhite,
         color: Colors.black,
@@ -277,8 +278,7 @@ const SearchBar = ({ t, isMobile, HEADER_DESKTOP }) => {
           height={28}
           icon='eva:search-fill'
           sx={{
-            color: Colors.offWhite,
-            height: HEADER_DESKTOP,
+            color: '#2F2019',
           }}
         />
       </IconButton>

@@ -44,7 +44,7 @@ export default function OrderDetails() {
   return isFetching ? (
     <Loader />
   ) : (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' sx={{ mt: 5 }}>
       <Header
         gutterBottom
         refetch={refetch}
@@ -136,12 +136,12 @@ export default function OrderDetails() {
                                 <Typography variant='subtitle1'>
                                   <Label
                                     color={
-                                      (order.user.is_business === false &&
+                                      (product.in_stock === false &&
                                         'error') ||
                                       'success'
                                     }
                                   >
-                                    {order.user.is_business ? (
+                                    {product.in_stock ? (
                                       <span className='tick-icon'>
                                         &#x2714;
                                       </span>

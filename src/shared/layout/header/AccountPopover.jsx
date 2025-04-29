@@ -15,6 +15,7 @@ import { logout } from '@/modules/Auth/state';
 import { appSelector } from '@/modules/App/state';
 import Iconify from '@/shared/components/iconify';
 import Colors from '@/theme/colors';
+import { authSelector } from '@/modules/Auth/state';
 
 export default function AccountPopover() {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const { currentUser } = useSelector(appSelector);
   const isRTL = localStorage.getItem('language') === 'ar';
+  const { token } = useSelector(authSelector);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -38,30 +40,39 @@ export default function AccountPopover() {
 
   return (
     <>
-      <IconButton
-        onClick={handleOpen}
-        aria-label='account menu'
-        sx={{
-          p: 0,
-          ...(open && {
-            '&:before': {
-              zIndex: 1,
-              content: "''",
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              position: 'absolute',
-              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
-            },
-          }),
-        }}
-      >
-        <Iconify
-          width={32}
-          icon='solar:user-circle-outline'
-          sx={{ color: Colors.white }}
-        />
-      </IconButton>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <IconButton
+          onClick={handleOpen}
+          aria-label='account menu'
+          sx={{
+            p: 0,
+            ...(open && {
+              '&:before': {
+                zIndex: 1,
+                content: "''",
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                position: 'absolute',
+                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
+              },
+            }),
+          }}
+        >
+          <Iconify
+            width={32}
+            icon='solar:user-circle-outline'
+            sx={{ color: Colors.black }}
+          />
+        </IconButton>
+        {token ? (
+          <Typography variant='subtitle2' sx={{ color: '#A5A5A5' }}>
+            {t('welcome')}
+            <br />
+            {currentUser.name}
+          </Typography>
+        ) : null}
+      </Box>
 
       <Popover
         open={Boolean(open)}
@@ -83,10 +94,10 @@ export default function AccountPopover() {
         }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant='subtitle2' noWrap>
+          <Typography variant='subtitle2'>
             {currentUser && currentUser.name}
           </Typography>
-          <Typography variant='body2' sx={{ color: 'text.secondary' }} noWrap>
+          <Typography variant='body2' sx={{ color: 'text.secondary' }}>
             {currentUser && currentUser.phone_number}
           </Typography>
         </Box>

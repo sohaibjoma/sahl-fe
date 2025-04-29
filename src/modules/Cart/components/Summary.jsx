@@ -17,6 +17,7 @@ import Iconify from '@/shared/components/iconify';
 import SavingDialog from '@/shared/components/dialogs/prompt/PromptDialog';
 import { useLazyFetchAddressesQuery } from '@/redux/apis/account';
 import secureLocalStorage from 'react-secure-storage';
+import { useCheckoutMutation } from '@/redux/apis/apiHub';
 
 export default function Summary({ cartItems, address }) {
   const { t } = useTranslation();
@@ -31,6 +32,14 @@ export default function Summary({ cartItems, address }) {
   const [savingDialogData, setSavingDialogData] = useState({
     isOpen: false,
   });
+
+  const [checkout, { isLoading: isPayLoading }] = useCheckoutMutation();
+
+  const handleCheckout = () => {
+    checkout({
+      address_id: address.id
+    });
+  };
 
   const [fetchAddresses, { data: addresses }] = useLazyFetchAddressesQuery();
   const addressesOptions =
@@ -229,9 +238,7 @@ export default function Summary({ cartItems, address }) {
                     mt: 1,
                     height: '40px',
                   }}
-                  onClick={() => {
-                    navigate('/cart/checkout');
-                  }}
+                  onClick={handleCheckout}
                 >
                   {t('checkout')}
                   <Iconify icon='material-symbols:shopping-cart-checkout' />

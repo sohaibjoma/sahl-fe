@@ -10,8 +10,8 @@ export const categoryAPI = createApi({
   baseQuery: customBaseQueryWithAuth,
   endpoints: (build) => ({
     fetchCategory: build.query({
-      query: (id) => ({
-        url: `/categories/${id}`,
+      query: (slug) => ({
+        url: `/categories/products/${slug}`,
       }),
       transformResponse: (result) => result.data,
       providesTags: ['category'],
